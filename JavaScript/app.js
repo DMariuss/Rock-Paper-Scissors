@@ -1,122 +1,100 @@
+// const playerScreen = document.querySelector('#player_details_score')
+// const playerName = document.querySelector('#player_details_name')
+// const computerScreen = document.querySelector('#computer_details_score')
+// const computerName = document.querySelector('#computer_details_name')
 const playerButtons = document.querySelectorAll('.player_side .btn')
-const playerScreen = document.querySelector('#player_details_score')
-const playerName = document.querySelector('#player_details_name')
-const computerScreen = document.querySelector('#computer_details_score')
-const computerName = document.querySelector('#computer_details_name')
 const resetButton = document.querySelector('.computer_side .reset')
 const resultText = document.querySelector('#result_text')
 const selector = document.querySelector('#selector')
 
+//am grupat toate proprietatile ce tin de player/user
+const player = {
+    name: document.querySelector('#player_details_name'),
+    screen: document.querySelector('#player_details_score'),
+    score: 0
+}
+//am grupat toate proprietatile ce tin de computer
+const computer = {
+    name: document.querySelector('#computer_details_name'),
+    screen: document.querySelector('#computer_details_score'),
+    choices: ['rock', 'paper', 'scissors'],
+    score: 0
+}
 
-const choices = ['rock', 'paper', 'scissors'];
 let maxScore = 3;
 let gameOver = false;
 
-let playerScore = 0;
-let computerScore = 0;
-
 for (let button of playerButtons) {
-    button.addEventListener('click', function (ev) {
-        if (!gameOver) {
-            const computer = choices[Math.floor(Math.random() * 3)];
-            const user = this.value;
-
-            console.log('user ->', user)
-            console.log('computer ->', computer)
-
-
-            if (computer === user) {
-                console.log('Remiza, incearca din nou');
-                resultText.innerText = 'DRAW';
-
-
-            } else if (computer === 'rock' && user === 'scissors' || computer === 'paper' && user === 'rock' || computer === 'scissors' && user === 'paper') {
-                console.log('computer won');
-                resultText.innerText = 'Computer WON';
-                computerScore += 1;
-
-                if (computerScore === maxScore) {
-                    gameOver = true;
-                    computerName.classList.add('winner')
-                    computerScreen.classList.add('winner')
-                    playerName.classList.add('loser')
-                    playerScreen.classList.add('loser')
-                    for (let button of playerButtons) {
-                        button.disabled = true;
-                    }
-                }
-
-                computerScreen.textContent = computerScore;
-
-
-            } else {
-                console.log('user won');
-                resultText.innerText = 'Player WON';
-                playerScore += 1;
-
-                if (playerScore === maxScore) {
-                    gameOver = true;
-                    playerName.classList.add('winner')
-                    playerScreen.classList.add('winner')
-                    computerName.classList.add('loser')
-                    computerScreen.classList.add('loser')
-                    for (let button of playerButtons) {
-                        button.disabled = true;
-                    }
-                }
-                
-                playerScreen.textContent = playerScore;
-            }
-        }
-
-
+    button.addEventListener('click', function () { 
+        //apelez functia cu argumentul fiind valoarea butonului selectat
+        play(this.value)
     });
 }
 
 //selectez numarul maxim de jocuri
 selector.addEventListener('change', function (ev) {
     maxScore = parseInt(this.value);
-    console.log(maxScore)
-
-    //partea de reset .... (cel mai indicat ar fi sa fac o functie de reset)
-    playerScore = 0;
-    computerScore = 0;
-    playerScreen.textContent = 0;
-    computerScreen.textContent = 0;
-    resultText.textContent = "Let's game";
-    gameOver = false;
-    for (let button of playerButtons) {
-        button.disabled = false;
-    }
-    playerName.classList.remove('winner', 'loser')
-    playerScreen.classList.remove('winner', 'loser')
-    computerName.classList.remove('loser', 'winner')
-    computerScreen.classList.remove('loser', 'winner')
+    reset();
 })
 
 //setez butonul de reset
-resetButton.addEventListener('click', function (ev) {
-    //functia de reset <<<--------------
-    playerScore = 0;
-    computerScore = 0;
-    playerScreen.textContent = 0;
-    computerScreen.textContent = 0;
-    resultText.textContent = "Let's game";
+resetButton.addEventListener('click', reset)
+
+function play(userPick) {
+    if (!gameOver) {
+        const computerPick = computer.choices[Math.floor(Math.random() * 3)];
+
+        console.log('user ->', userPick)
+        console.log('computer ->', computerPick)
+
+
+        if (computerPick === userPick) {
+            console.log('Remiza, incearca din nou');
+            resultText.innerText = '..DRAW..';
+
+        } else if (computerPick === 'rock' && userPick === 'scissors' || computerPick === 'paper' && userPick === 'rock' || computerPick === 'scissors' && userPick === 'paper') {
+            console.log('computer won');
+            upScore(computer, player);
+
+        } else {
+            console.log('user won');
+            upScore(player, computer);
+        }
+    }
+}
+
+function upScore(player, opponent) {
+    resultText.innerText = `${player.name.innerText} WON`;
+    player.score += 1;
+
+    if (player.score === maxScore) {
+        gameOver = true;
+        player.name.classList.add('winner')
+        player.screen.classList.add('winner')
+        opponent.name.classList.add('loser')
+        opponent.screen.classList.add('loser')
+        for (let button of playerButtons) {
+            button.disabled = true;
+        }
+    }
+
+    player.screen.textContent = player.score;
+}
+
+function reset() {
     gameOver = false;
+    resultText.textContent = "Let's game";
+    for (let el of [player, computer]) {
+        el.score = 0;
+        el.screen.textContent = 0;
+        el.name.classList.remove('winner', 'loser')
+        el.screen.classList.remove('winner', 'loser')
+    }
     for (let button of playerButtons) {
         button.disabled = false;
     }
-    playerName.classList.remove('winner', 'loser')
-    playerScreen.classList.remove('winner', 'loser')
-    computerName.classList.remove('loser', 'winner')
-    computerScreen.classList.remove('loser', 'winner')
+}
 
-})
-
-
-
-
-// let user = prompt('Pick your choice');
 
 
 
