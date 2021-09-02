@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./Styles/app.css" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
+      integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <title>Rock Paper Scissors</title>
+  </head>
+
+  <body>
+    <h1>Welcome to the Rock-Paper-Scissors game!</h1>
+
+    <section class="wrapper">
+      <div class="row">
+        <div class="player_details">
+          <h2 id="player_details_name">Player</h2>
+          <h2 id="player_details_score">0</h2>
+        </div>
+        <div class="computer_details">
+          <h2 id="computer_details_name">Computer</h2>
+          <h2 id="computer_details_score">0</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="player_side">
+          <button class="btn btn_player rock" value="rock">
+            <!-- <span class="btn_name">rock</span> -->
+            <!-- <i class="far fa-hand-rock"></i> -->
+            <img src="./Images/SVG/icon-rock.svg" />
+          </button>
+          <div class="row">
+            <button class="btn btn_player paper" value="paper">
+              <!-- <span class="btn_name">paper</span> -->
+              <!-- <i class="far fa-hand-paper"></i> -->
+              <img src="./Images/SVG/icon-paper.svg" />
+            </button>
+            <button class="btn btn_player scissor" value="scissors">
+              <!-- <span class="btn_name">scissors</span> -->
+              <!-- <i class="far fa-hand-scissors"></i> -->
+              <img src="./Images/SVG/icon-scissors.svg" />
+            </button>
+          </div>
+        </div>
+        <div class="computer_side">
+          <h3>Playing to</h3>
+          <select name="hits" id="selector">
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+          </select>
+          <button class="btn reset">reset</button>
+        </div>
+      </div>
+      <div class="row">
+        <h2 id="result_text">Let's game</h2>
+      </div>
+      <div id="game-images" class="row">
+        <div class="player_choices">
+          <img
+            class="img player_choices__rock"
+            src="./Images/player_Rock.png"
+            alt="player pick: rock"
+          />
+          <img
+            class="img player_choices__paper"
+            src="./Images/player_Paper.png"
+            alt="player pick: paper"
+          />
+          <img
+            class="img player_choices__scissors"
+            src="./Images/player_Scissor.png"
+            alt="player pick: scissors"
+          />
+          <img
+            id="player_img"
+            src="./Images/player_img.png"
+            alt="players picture"
+          />
+        </div>
+        <div class="computer_choices">
+          <img
+            class="img computer_choices__rock"
+            src="./Images/computer_Rock.png"
+            alt="computer pick: rock"
+          />
+          <img
+            class="img computer_choices__paper"
+            src="./Images/computer_Paper.png"
+            alt="computer pick: paper"
+          />
+          <img
+            class="img computer_choices__scissors"
+            src="./Images/computer_Scissor.png"
+            alt="computer pick: scissor"
+          />
+          <img
+            id="computer_img"
+            src="./Images/computer_img.png"
+            alt="computers picture"
+          />
+        </div>
+      </div>
+    </section>
+
+    <script src="./JavaScript/app.js"></script>
+  </body>
+</html>
