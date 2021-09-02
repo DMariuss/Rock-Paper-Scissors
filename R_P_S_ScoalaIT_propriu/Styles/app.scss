@@ -14,26 +14,40 @@ html {
 }
 
 $colors: (
-  // body_bg: #212529,
+  game_title: #fff,
   body_bg: #001d3d,
   game_bg: rgb(108, 117, 125),
   player_btn_bg: rgba(195, 195, 195, 0.747),
   playing_to: #464545,
   win: #004b23,
   lose: #990100,
-  text_color: #343a40
+  text_color: #343a40,
 );
 
 @function set-color($key) {
   @return map-get($colors, $key);
 }
 
+@mixin media-md {
+  @media screen and (min-width: 767px) {
+    @content;
+  }
+}
+
+@mixin media-sm {
+  @media screen and (min-width: 550px) {
+    @content;
+  }
+}
+
 body {
   font-family: "Roboto", sans-serif;
   background-color: set-color(body_bg);
-  > h1 {
+  .title {
     text-align: center;
-    margin: 1rem auto 2rem;
+    font-style: italic;
+    color: set-color(game_title);
+    margin: 2rem auto;
   }
   h2 {
     color: set-color(text_color);
@@ -58,8 +72,12 @@ body {
 .row {
   display: flex;
   justify-content: space-between;
-  padding: 0.5rem 1rem;
-  margin: 0 2.5rem;
+  padding: 0.5rem;
+
+  @include media-sm {
+    padding: 0.5rem 1rem;
+    margin: 0 2.5rem;
+  }
 }
 
 .btn {
@@ -95,6 +113,11 @@ body {
       margin-bottom: 0.5rem;
     }
   }
+  //adaug tranzitie pe elementele cu clasele winner/loser
+  &_name,
+  &_score {
+    transition: color 0.3s ease-in;
+  }
 }
 
 .player_side {
@@ -107,10 +130,14 @@ body {
   }
 
   button {
-    max-width: 60px;
-    max-height: 60px;
+    max-width: 50px;
+    max-height: 50px;
     margin: 0 auto;
 
+    @include media-sm {
+      max-width: 60px;
+      max-height: 60px;
+    }
     //centrez imaginile din butoane
     display: flex;
     align-items: center;
@@ -138,11 +165,15 @@ body {
   }
   button {
     display: block;
-    padding: 0.5rem 2rem;
     margin-top: 1.5rem;
+    padding: 0.3rem 1.2rem;
     border-radius: 0.2rem;
     font-weight: bold;
     color: set-color(playing_to);
+
+    @include media-sm {
+      padding: 0.5rem 2rem;
+    }
   }
 }
 
@@ -170,6 +201,7 @@ body {
   img {
     max-width: 80%;
     position: absolute;
+    top: 0;
     opacity: 0;
     // z-index: 1;
     filter: drop-shadow(0px 0px 7px gray);
@@ -179,19 +211,41 @@ body {
 
     &:last-of-type {
       max-width: 100%;
-      opacity: 0.7;
+      @include media-sm {
+        opacity: 0.1;
+      }
     }
 
     &.move-right {
-      // animation: move-right 1s ease-in forwards;
-      transform: translateX(200%);
       opacity: 0.7;
+      transform: translateX(17vw);
+
+      @include media-sm {
+        transform: translateX(23vw);
+      }
+      @include media-md {
+        transform: translateX(220%);
+      }
     }
     &.move-left {
-      transform: translateX(-200%);
       opacity: 0.7;
+      transform: translateX(-17vw);
+
+      @include media-sm {
+        transform: translateX(-23vw);
+      }
+      @include media-md {
+        transform: translateX(-220%);
+      }
     }
   }
+}
+
+.player_choices img {
+  left: 0;
+}
+.computer_choices img {
+  right: 0;
 }
 
 .displayOff {

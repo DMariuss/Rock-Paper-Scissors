@@ -19,9 +19,11 @@ body {
   background-color: #001d3d;
 }
 
-body > h1 {
+body .title {
   text-align: center;
-  margin: 1rem auto 2rem;
+  font-style: italic;
+  color: #fff;
+  margin: 2rem auto;
 }
 
 body h2 {
@@ -46,8 +48,14 @@ body h2 {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  padding: 0.5rem 1rem;
-  margin: 0 2.5rem;
+  padding: 0.5rem;
+}
+
+@media screen and (min-width: 550px) {
+  .row {
+    padding: 0.5rem 1rem;
+    margin: 0 2.5rem;
+  }
 }
 
 .btn {
@@ -89,6 +97,13 @@ body h2 {
   margin-bottom: 0.5rem;
 }
 
+.player_details_name, .player_details_score,
+.computer_details_name,
+.computer_details_score {
+  -webkit-transition: color 0.3s ease-in;
+  transition: color 0.3s ease-in;
+}
+
 .player_side {
   width: Min(40%, 200px);
 }
@@ -102,8 +117,8 @@ body h2 {
 }
 
 .player_side button {
-  max-width: 60px;
-  max-height: 60px;
+  max-width: 50px;
+  max-height: 50px;
   margin: 0 auto;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -114,6 +129,13 @@ body h2 {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+}
+
+@media screen and (min-width: 550px) {
+  .player_side button {
+    max-width: 60px;
+    max-height: 60px;
+  }
 }
 
 .player_side button img {
@@ -141,11 +163,17 @@ body h2 {
 
 .computer_side button {
   display: block;
-  padding: 0.5rem 2rem;
   margin-top: 1.5rem;
+  padding: 0.3rem 1.2rem;
   border-radius: 0.2rem;
   font-weight: bold;
   color: #464545;
+}
+
+@media screen and (min-width: 550px) {
+  .computer_side button {
+    padding: 0.5rem 2rem;
+  }
 }
 
 #result_text {
@@ -179,6 +207,7 @@ body h2 {
 .player_choices img {
   max-width: 80%;
   position: absolute;
+  top: 0;
   opacity: 0;
   -webkit-filter: drop-shadow(0px 0px 7px gray);
           filter: drop-shadow(0px 0px 7px gray);
@@ -191,21 +220,67 @@ body h2 {
 .computer_choices img:last-of-type,
 .player_choices img:last-of-type {
   max-width: 100%;
-  opacity: 0.7;
+}
+
+@media screen and (min-width: 550px) {
+  .computer_choices img:last-of-type,
+  .player_choices img:last-of-type {
+    opacity: 0.1;
+  }
 }
 
 .computer_choices img.move-right,
 .player_choices img.move-right {
-  -webkit-transform: translateX(200%);
-          transform: translateX(200%);
   opacity: 0.7;
+  -webkit-transform: translateX(17vw);
+          transform: translateX(17vw);
+}
+
+@media screen and (min-width: 550px) {
+  .computer_choices img.move-right,
+  .player_choices img.move-right {
+    -webkit-transform: translateX(23vw);
+            transform: translateX(23vw);
+  }
+}
+
+@media screen and (min-width: 767px) {
+  .computer_choices img.move-right,
+  .player_choices img.move-right {
+    -webkit-transform: translateX(220%);
+            transform: translateX(220%);
+  }
 }
 
 .computer_choices img.move-left,
 .player_choices img.move-left {
-  -webkit-transform: translateX(-200%);
-          transform: translateX(-200%);
   opacity: 0.7;
+  -webkit-transform: translateX(-17vw);
+          transform: translateX(-17vw);
+}
+
+@media screen and (min-width: 550px) {
+  .computer_choices img.move-left,
+  .player_choices img.move-left {
+    -webkit-transform: translateX(-23vw);
+            transform: translateX(-23vw);
+  }
+}
+
+@media screen and (min-width: 767px) {
+  .computer_choices img.move-left,
+  .player_choices img.move-left {
+    -webkit-transform: translateX(-220%);
+            transform: translateX(-220%);
+  }
+}
+
+.player_choices img {
+  left: 0;
+}
+
+.computer_choices img {
+  right: 0;
 }
 
 .displayOff {

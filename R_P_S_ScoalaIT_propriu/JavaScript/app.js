@@ -10,15 +10,15 @@ const gameImagesDiv = document.querySelector("#game-images");
 
 //am grupat toate proprietatile ce tin de player/user
 const player = {
-  name: document.querySelector("#player_details_name"),
-  screen: document.querySelector("#player_details_score"),
+  name: document.querySelector(".player_details_name"),
+  screen: document.querySelector(".player_details_score"),
   score: 0,
   scoreAnimationTimerId: null, // 🢣 timer-id player 🢣 pt a inlatura setTimeout API in cazul mai multe instante ale acestuia
 };
 //am grupat toate proprietatile ce tin de computer
 const computer = {
-  name: document.querySelector("#computer_details_name"),
-  screen: document.querySelector("#computer_details_score"),
+  name: document.querySelector(".computer_details_name"),
+  screen: document.querySelector(".computer_details_score"),
   choices: ["rock", "paper", "scissors"],
   score: 0,
   scoreAnimationTimerId: null, // 🢣 timer-id computer 🢣 pt a inlatura setTimeout API in cazul mai multe instante ale acestuia
@@ -26,9 +26,12 @@ const computer = {
 
 let maxScore = 3,
   gameOver = false,
+  coreLogicTimerDelay = 300,
+  resultTextDelay = coreLogicTimerDelay + 900,
+  imagesTimerDelay = resultTextDelay + coreLogicTimerDelay,
+  coreLogicTimerId,
   imagesTimerId,
-  resultTextTimerId,
-  coreLogicTimerId;
+  resultTextTimerId;
 
 //adaug un event listener pt fiecare buton si preiau valoarea acestuia
 for (let button of playerButtons) {
@@ -36,7 +39,7 @@ for (let button of playerButtons) {
     //apelez functia cu argumentul fiind valoarea butonului selectat
     play(this.value);
 
-    // disableButtons(true);
+    disablePlayerButtons(true);
   });
 }
 
@@ -60,7 +63,7 @@ function play(userPick) {
   if (!gameOver) {
     const computerPick = computer.choices[Math.floor(Math.random() * 3)];
 
-    // apelez functia ce implementeaza animatiile pt aceste alegeri
+    // apelez functia ce implementeaza animatiile pt aceste alegeri 🢣 adauga si dupa un anumit timp inlatura clasa cu animatia
     gameImagesAnimation({ player: userPick, computer: computerPick });
 
     // console.log("user ->", userPick);
@@ -86,13 +89,19 @@ function play(userPick) {
 
       resultText.classList.add("show");
       checkAndClearTimer(resultTextTimerId);
+
       resultTextTimerId = setTimeout(() => {
         resultText.classList.remove("show");
         resultTextTimerId = null; // 🢣 practic resetat pt a nu executa functia clearTimeout la fiecare executie a codului
-      }, 1200);
+      }, resultTextDelay);
+
+      //in cazul in care s-a terminat jocul, vreau sa-mi lase clasa 'show' pe resultText
+      if (gameOver) {
+        checkAndClearTimer(resultTextTimerId); // anulez setTimeout-ul pus pt a inlatura clasa
+      }
 
       coreLogicTimerId = null;
-    }, 300);
+    }, coreLogicTimerDelay);
   }
 }
 
@@ -111,7 +120,7 @@ function upScore(player, opponent) {
     player.screen.classList.add("winner");
     opponent.name.classList.add("loser");
     opponent.screen.classList.add("loser");
-    disableButtons(true);
+    disablePlayerButtons(true); // as putea sa o sterg de aici si sa o mut pe cealalta ramura din verificarea din gameImagesAnimation
   }
 
   player.screen.innerText = player.score;
@@ -125,18 +134,18 @@ function upScore(player, opponent) {
 
 function reset() {
   gameOver = false;
-  resultText.textContent = "Let's game";
+  resultText.classList.remove("show");
   for (let el of [player, computer]) {
     el.score = 0;
     el.screen.textContent = 0;
     el.name.classList.remove("winner", "loser");
     el.screen.classList.remove("winner", "loser");
   }
-  disableButtons(false);
+  disablePlayerButtons(false);
 }
 
 // ultima adaugata 🢣 daca vreau sa le dezactivez, in caz contrar le reactivez
-function disableButtons(disable) {
+function disablePlayerButtons(disable) {
   if (disable) {
     for (let button of playerButtons) {
       button.disabled = true;
@@ -175,8 +184,11 @@ function gameImagesAnimation(picks) {
     computerImg.classList.remove("move-left");
     imagesTimerId = null; // la sfarsitul timerului reinitializez variabila pt id
 
-    // disableButtons(false);
-  }, 1500);
+    //vreau sa activez butoanele la sfarsitul animatiei, doar in cazul in care nu am game-over!
+    if (!gameOver) {
+      disablePlayerButtons(false);
+    }
+  }, imagesTimerDelay);
 }
 
 // Varianta medie
