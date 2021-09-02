@@ -12,6 +12,7 @@ html {
   list-style: none;
   -webkit-box-sizing: inherit;
           box-sizing: inherit;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
